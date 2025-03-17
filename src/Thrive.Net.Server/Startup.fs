@@ -6,8 +6,8 @@ open Microsoft.Extensions.DependencyInjection
 open Microsoft.Extensions.Hosting
 open Bolero.Remoting.Server
 open Bolero.Server
-open Bolero.Templating.Server
 open Radzen
+open Thrive.Net.Client.Main
 
 module Program =
 
@@ -26,9 +26,9 @@ module Program =
             .AddCookie()
         |> ignore
         builder.Services.AddBoleroComponents() |> ignore
-    #if DEBUG
-        builder.Services.AddHotReload(templateDir = __SOURCE_DIRECTORY__ + "/../Thrive.Net.Client") |> ignore
-    #endif
+    // #if DEBUG
+    //     builder.Services.AddHotReload(templateDir = __SOURCE_DIRECTORY__ + "/../Thrive.Net.Client") |> ignore
+    // #endif
 
         let app = builder.Build()
 
@@ -43,14 +43,14 @@ module Program =
             .UseAntiforgery()
         |> ignore
 
-    #if DEBUG
-        app.UseHotReload()
-    #endif
+    // #if DEBUG
+    //     app.UseHotReload()
+    // #endif
         app.MapBoleroRemoting() |> ignore
         app.MapRazorComponents<Server.BootstrapPage>()
             .AddInteractiveServerRenderMode()
             .AddInteractiveWebAssemblyRenderMode()
-            .AddAdditionalAssemblies(typeof<Client.App>.Assembly)
+            .AddAdditionalAssemblies(typeof<App>.Assembly)
         |> ignore
 
         app.Run()

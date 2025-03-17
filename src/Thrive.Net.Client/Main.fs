@@ -1,48 +1,29 @@
-module Thrive.Net.Client
+module Thrive.Net.Client.Main
 
 open Elmish
 open Bolero
 open Bolero.Html
-open Bolero.Templating.Client
-open Microsoft.AspNetCore.Components.Web
-open Radzen.Blazor
-
-type Page =
-    | [<EndPoint "/">] Home
-
-type Model =
-    {
-        page: Page
-        counter: int
-        error: string option
-    }
+open Thrive.Net.Client.Components
+open Thrive.Net.Client.Model
 
 let initModel =
     {
         page = Home
-        counter = 0
+        Credentials = { Username = ""; Password = "" }
         error = None
     }
-
-type Message =
-    | SetPage of Page
-    | Increment
-    | Decrement
-    | SetCounter of int
-    | Error of exn
-    | ClearError
 
 let update message model =
     match message with
     | SetPage page ->
         { model with page = page }, Cmd.none
-
-    | Increment ->
-        { model with counter = model.counter + 1 }, Cmd.none
-    | Decrement ->
-        { model with counter = model.counter - 1 }, Cmd.none
-    | SetCounter value ->
-        { model with counter = value }, Cmd.none
+        
+    | SetUsername value ->
+        printfn $"Setting username to '{value}'..."
+        { model with Model.Credentials.Username = value }, Cmd.none
+    | SetPassword value ->
+        printfn $"Setting password to '{value}'..."
+        { model with Model.Credentials.Password = value }, Cmd.none
         
     | Error exn ->
         { model with error = Some exn.Message }, Cmd.none
@@ -53,20 +34,7 @@ let router = Router.infer SetPage _.page
 
 let view model dispatch =
     div {
-        p {
-            comp<RadzenButton> {
-                "Text" => "-"
-                attr.callback<MouseEventArgs> "Click" (fun _ -> dispatch Decrement)
-            }
-            comp<RadzenLabel> {
-                attr.style "margin: 0em 1em 0em 1em;"
-                "Text" => $"{model.counter}"
-            }
-            comp<RadzenButton> {
-                "Text" => "+"
-                attr.callback<MouseEventArgs> "Click" (fun _ -> dispatch Increment)
-            }
-        }
+        ecomp<LoginForm,_,_> model.Credentials (fun n -> dispatch n) { attr.empty() }
     }
 
 type App() =
@@ -77,6 +45,6 @@ type App() =
     override this.Program =
         Program.mkProgram (fun _ -> initModel, Cmd.none) update view
         |> Program.withRouter router
-#if DEBUG
-        |> Program.withHotReload
-#endif
+// #if DEBUG
+//         |> Program.withHotReload
+// #endif

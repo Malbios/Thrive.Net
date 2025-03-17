@@ -6,6 +6,7 @@ open Bolero.Server.Html
 open Microsoft.AspNetCore.Components
 open Microsoft.AspNetCore.Components.Web
 open Radzen.Blazor
+open Thrive.Net.Client.Main
 
 let page = doctypeHtml {
     head {
@@ -24,24 +25,11 @@ let page = doctypeHtml {
         }
     }
     body {
-        nav {
-            attr.``class`` "navbar is-dark"
-            "role" => "navigation"
-            attr.aria "label" "main navigation"
-            div {
-                attr.``class`` "navbar-brand"
-                a {
-                    attr.``class`` "navbar-item has-text-weight-bold is-size-5"
-                    attr.href "https://fsbolero.io"
-                    img { attr.style "height:40px"; attr.src "https://github.com/fsbolero/website/raw/master/src/Website/img/wasm-fsharp.png" }
-                    "  Bolero"
-                }
-            }
-        }
         div {
             attr.id "main"
-            comp<Client.App> { attr.renderMode RenderMode.InteractiveWebAssembly }
+            comp<App> { attr.renderMode RenderMode.InteractiveWebAssembly }
         }
+        
         boleroScript
     }
 }
