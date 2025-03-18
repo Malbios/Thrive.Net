@@ -6,13 +6,6 @@ open Bolero.Html
 open Thrive.Net.Client.Components
 open Thrive.Net.Client.Model
 
-let initModel =
-    {
-        page = Home
-        Credentials = { Username = ""; Password = "" }
-        error = None
-    }
-
 let update message model =
     match message with
     | SetPage page ->
@@ -20,10 +13,16 @@ let update message model =
         
     | SetUsername value ->
         printfn $"Setting username to '{value}'..."
-        { model with Model.Credentials.Username = value }, Cmd.none
+        { model with Model.Credentials.Username = value }, Cmd.ofMsg CheckCredentials
     | SetPassword value ->
         printfn $"Setting password to '{value}'..."
-        { model with Model.Credentials.Password = value }, Cmd.none
+        { model with Model.Credentials.Password = value }, Cmd.ofMsg CheckCredentials
+        
+    | CheckCredentials ->
+        if model.Credentials.Username <> "" && model.Credentials.Password = "pass" then
+            { model with Model.Credentials.IsLoggedIn = true }, Cmd.none
+        else
+            model, Cmd.none
         
     | Error exn ->
         { model with error = Some exn.Message }, Cmd.none
@@ -33,9 +32,7 @@ let update message model =
 let router = Router.infer SetPage _.page
 
 let view model dispatch =
-    div {
-        ecomp<LoginForm,_,_> model.Credentials (fun n -> dispatch n) { attr.empty() }
-    }
+    Pages.home model dispatch
 
 type App() =
     inherit ProgramComponent<Model, Message>()
@@ -43,7 +40,7 @@ type App() =
     override _.CssScope = CssScopes.App
     
     override this.Program =
-        Program.mkProgram (fun _ -> initModel, Cmd.none) update view
+        Program.mkProgram (fun _ -> Model.initModel, Cmd.none) update view
         |> Program.withRouter router
 // #if DEBUG
 //         |> Program.withHotReload

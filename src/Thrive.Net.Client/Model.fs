@@ -5,6 +5,7 @@ open Bolero
 type Credentials = {
     Username: string
     Password: string
+    IsLoggedIn: bool
 }
 
 type Page =
@@ -17,9 +18,22 @@ type Model =
         error: string option
     }
     
+module Model =
+    let initModel =
+        {
+            page = Home
+            Credentials = {
+                Username = ""
+                Password = ""
+                IsLoggedIn = false
+            }
+            error = None
+        }
+    
 type Message =
     | SetPage of Page
     | SetUsername of string
     | SetPassword of string
+    | CheckCredentials
     | Error of exn
     | ClearError
