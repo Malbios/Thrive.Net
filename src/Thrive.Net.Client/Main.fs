@@ -29,8 +29,6 @@ let update message model =
     | ClearError ->
         { model with error = None }, Cmd.none
 
-let router = Router.infer SetPage _.page
-
 let view model dispatch =
     Pages.home model dispatch
 
@@ -41,7 +39,8 @@ type App() =
     
     override this.Program =
         Program.mkProgram (fun _ -> Model.initModel, Cmd.none) update view
-        |> Program.withRouter router
+        |> Program.withRouter (Router.infer SetPage _.page)
+        
 // #if DEBUG
 //         |> Program.withHotReload
 // #endif

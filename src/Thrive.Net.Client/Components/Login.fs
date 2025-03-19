@@ -45,9 +45,6 @@ type LoginForm() =
         let welcomeMessage = if model.IsLoggedIn then $", {model.Username}" else ""
         
         comp<RadzenStack> {
-            attr.``class`` "rz-border rz-border-radius-6 rz-border-color-info-darker login-box"
-            attr.style "--rz-border-width: 5px;"
-            
             "Orientation" => Orientation.Vertical
             "AlignItems" => AlignItems.Center
             "JustifyContent" => JustifyContent.Center
