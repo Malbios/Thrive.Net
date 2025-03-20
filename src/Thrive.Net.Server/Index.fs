@@ -19,10 +19,8 @@ let page = doctypeHtml {
         link { attr.rel "stylesheet"; attr.href "https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.min.css" }
         link { attr.rel "shortcut icon"; attr.href "assets/favicon.ico" }
         script { attr.src $"_content/Radzen.Blazor/Radzen.Blazor.js?v={typedefof<Radzen.Colors>.Assembly.GetName().Version}" }
-        link { attr.rel "stylesheet"; attr.href "css/index.css" }
-        comp<RadzenTheme> {
-            "Theme" => "material"
-        }
+        link { attr.rel "stylesheet"; attr.href "global.css" }
+        comp<RadzenTheme> { "Theme" => "material" }
     }
     body {
         div {

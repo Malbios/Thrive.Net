@@ -1,17 +1,15 @@
 ﻿module Thrive.Net.Client.Pages
 
 open Bolero.Html
-open Radzen
-open Radzen.Blazor
 open Thrive.Net.Client.Components
 
-let home (model: Model.Model) dispatch =
+let login (model: Models.Model) dispatch =
     div {
         attr.``class`` "login-container"
         
         img {
             attr.``class`` "bg-image"
-            attr.src "/assets/thrive-logo-banner.png"
+            attr.src "/assets/thrive-logo-banner-v2.jpg"
         }
         
         div {

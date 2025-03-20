@@ -5,7 +5,7 @@ open Bolero.Html
 open Microsoft.AspNetCore.Components
 open Radzen
 open Radzen.Blazor
-open Thrive.Net.Client.Model
+open Thrive.Net.Client.Models
 
 module Helpers =
     let renderComponent<'T when 'T :> IComponent> placeholder model dispatch =

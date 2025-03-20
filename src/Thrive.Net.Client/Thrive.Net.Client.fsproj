@@ -4,9 +4,11 @@
     <TargetFramework>net8.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Model.fs" />
+    <Compile Include="Models.fs" />
+    <Compile Include="Update.fs" />
     <Compile Include="Components\Login.fs" />
     <Compile Include="Pages.fs" />
+    <Compile Include="View.fs" />
     <Compile Include="Main.fs" />
     <Compile Include="Startup.fs" />
   </ItemGroup>
@@ -16,5 +18,8 @@
     <PackageReference Include="Bolero.HotReload" Version="0.*" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="8.0.*" />
     <PackageReference Include="Radzen.Blazor" Version="6.2.7" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Thrive.Net.Client.bolero.css" />
   </ItemGroup>
 </Project>
